@@ -26,6 +26,7 @@ model User {
   avatarUrl   String?   @default("https://res.cloudinary.com/dkd5jblv5/image/upload/v1675976806/Default_ProfilePicture_gjngnb.png")
   bio         String?
   sessions    Session[]
+  posts       Post[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -39,4 +40,15 @@ model Session {
   expiresAt DateTime
 
   @@map("sessions")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
 }

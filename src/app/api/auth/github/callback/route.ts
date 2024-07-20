@@ -30,10 +30,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const tokens = await github.validateAuthorizationCode(
-      code,
-      codeVerifierCookie,
-    );
+    const tokens = await github.validateAuthorizationCode(code);
     const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
@@ -54,6 +51,7 @@ export async function GET(request: Request) {
         data: {
           id: userId,
           username: githubUserResult.login,
+          displayName: githubUserResult.name,
           githubId: githubUserResult.id,
         },
       });

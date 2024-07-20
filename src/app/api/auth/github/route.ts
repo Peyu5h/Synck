@@ -22,7 +22,7 @@ export async function GET() {
   const state = generateState();
 
   // Store the codeVerifier and state in cookies
-  const redirectURL = await github.createAuthorizationURL(state, codeVerifier);
+  const redirectURL = await github.createAuthorizationURL(state);
   const response = NextResponse.redirect(redirectURL.toString());
   response.cookies.set("github_code_verifier", codeVerifier, {
     httpOnly: true,

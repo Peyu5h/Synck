@@ -14,3 +14,29 @@ datasource db {
   url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
+
+model User {
+  id          String    @id
+  username    String    @unique
+  displayName String
+  email       String?   @unique
+  password    String?
+  googleId    String?   @unique
+  githubId    String?   @unique
+  avatarUrl   String?   @default("https://res.cloudinary.com/dkd5jblv5/image/upload/v1675976806/Default_ProfilePicture_gjngnb.png")
+  bio         String?
+  sessions    Session[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+
+  @@map("sessions")
+}

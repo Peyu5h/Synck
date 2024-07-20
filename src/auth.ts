@@ -3,8 +3,6 @@ import prisma from "./lib/prisma";
 import { Lucia, Session, User } from "lucia";
 import { cache } from "react";
 import { cookies } from "next/headers";
-import { GitHub, Google } from "arctic";
-import { generateIdFromEntropySize } from "lucia";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
@@ -27,15 +25,15 @@ export const lucia = new Lucia(adapter, {
   },
 });
 
-export const github = new GitHub(
-  process.env.GITHUB_CLIENT_ID!,
-  process.env.GITHUB_CLIENT_SECRET!,
-);
-export const google = new Google(
-  process.env.GOOGLE_CLIENT_ID!,
-  process.env.GOOGLE_CLIENT_SECRET!,
-  process.env.GOOGLE_REDIRECT_URI!,
-);
+// export const github = new GitHub(
+//   process.env.GITHUB_CLIENT_ID!,
+//   process.env.GITHUB_CLIENT_SECRET!,
+// );
+// export const google = new Google(
+//   process.env.GOOGLE_CLIENT_ID!,
+//   process.env.GOOGLE_CLIENT_SECRET!,
+//   process.env.GOOGLE_REDIRECT_URI!,
+// );
 
 declare module "lucia" {
   interface Register {

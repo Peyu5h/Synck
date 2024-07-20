@@ -82,6 +82,20 @@ const RegisterPage = () => {
                 >
                   Register
                 </button>
+                <div className="mt-4">
+                  <a
+                    href="/api/auth/google"
+                    className="flex w-full cursor-pointer justify-center rounded-full bg-blue-500 p-4 text-lg font-semibold text-gray-100 shadow-lg transition duration-300 ease-in hover:bg-blue-600 focus:outline-none"
+                  >
+                    Sign in with Google
+                  </a>
+                  <a
+                    href="/api/auth/github"
+                    className="mt-4 flex w-full cursor-pointer justify-center rounded-full bg-gray-800 p-4 text-lg font-semibold text-gray-100 shadow-lg transition duration-300 ease-in hover:bg-gray-900 focus:outline-none"
+                  >
+                    Sign in with GitHub
+                  </a>
+                </div>
               </div>
               <p className="dark:text-dark_text_1 mt-2 flex flex-row items-center justify-center gap-x-2 text-center text-sm">
                 Already have an account?
@@ -91,6 +105,18 @@ const RegisterPage = () => {
                   </span>
                 </Link>
               </p>
+              <a
+                href="/api/auth/google"
+                className="flex w-full cursor-pointer justify-center rounded-full bg-blue-500 p-4 text-lg font-semibold text-gray-100 shadow-lg transition duration-300 ease-in hover:bg-blue-600 focus:outline-none"
+              >
+                Sign in with Google
+              </a>
+              <a
+                href="/api/auth/github"
+                className="mt-4 flex w-full cursor-pointer justify-center rounded-full bg-gray-800 p-4 text-lg font-semibold text-gray-100 shadow-lg transition duration-300 ease-in hover:bg-gray-900 focus:outline-none"
+              >
+                Sign in with GitHub
+              </a>
             </form>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-
 import prisma from "./lib/prisma";
 import { Lucia, Session, User } from "lucia";
 import { cache } from "react";
 import { cookies } from "next/headers";
+import { GitHub, Google } from "arctic";
+import { generateIdFromEntropySize } from "lucia";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
@@ -19,27 +20,35 @@ export const lucia = new Lucia(adapter, {
       id: databaseUserAttributes.id,
       username: databaseUserAttributes.username,
       displayName: databaseUserAttributes.displayName,
-      avatarUrl: databaseUserAttributes.avatarurl,
+      avatarUrl: databaseUserAttributes.avatarUrl,
       googleId: databaseUserAttributes.googleId,
       githubId: databaseUserAttributes.githubId,
     };
   },
 });
 
+export const github = new GitHub(
+  process.env.GITHUB_CLIENT_ID!,
+  process.env.GITHUB_CLIENT_SECRET!,
+);
+export const google = new Google(
+  process.env.GOOGLE_CLIENT_ID!,
+  process.env.GOOGLE_CLIENT_SECRET!,
+  process.env.GOOGLE_REDIRECT_URI!,
+);
+
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: DatabaseUserAttributes;
+    DatabaseUserAttributes: {
+      id: string;
+      username: string;
+      displayName: string;
+      avatarUrl: string;
+      googleId: string | null;
+      githubId: string | null;
+    };
   }
-}
-
-interface DatabaseUserAttributes {
-  id: string;
-  username: string;
-  displayName: string;
-  avatarurl: string;
-  googleId: string | null;
-  githubId: string | null;
 }
 
 export const validateRequest = cache(

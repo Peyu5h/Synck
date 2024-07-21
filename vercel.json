@@ -5,7 +5,5 @@
       "use": "@vercel/node"
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }

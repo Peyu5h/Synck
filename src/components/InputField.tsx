@@ -35,7 +35,7 @@ const InputField: FC<InputFieldProps> = ({
       </label>
       <div className="relative">
         <input
-          className="w-full rounded-lg bg-slate-300 px-4 py-3 text-sm outline-none placeholder:font-light"
+          className="w-full rounded-lg bg-slate-300 px-4 py-3 text-sm outline-none placeholder:font-light dark:bg-slate-600"
           id={id}
           name={id}
           type={type}

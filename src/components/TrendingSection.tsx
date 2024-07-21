@@ -108,6 +108,6 @@ const getTrendingTopics = unstable_cache(
   //revalidate cache on server after every 3 hours
   ["trending_topics"],
   {
-    revalidate: 3 * 60 * 60,
+    revalidate: 1 * 60 * 60, // 1 hr
   },
 );

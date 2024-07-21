@@ -33,7 +33,7 @@ const RegisterPage = () => {
     <div>
       <div>
         <div className="flex h-screen items-center justify-center">
-          <div className="form my-auto w-[22rem] rounded-2xl bg-gray-200 p-6 py-10">
+          <div className="form my-auto w-[22rem] rounded-2xl bg-card p-6 py-10">
             <h1 className="mb-8 mt-4 text-center text-3xl font-bold">
               Register
             </h1>

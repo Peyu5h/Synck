@@ -11,6 +11,7 @@ import { dateHandler } from "@/lib/utils";
 
 interface PostProps {
   post: PostData;
+  children?: React.ReactNode;
 }
 
 export default function Post({ post }: PostProps) {
@@ -19,7 +20,7 @@ export default function Post({ post }: PostProps) {
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <article className="group/post space-y-3 rounded-2xl bg-card p-5 shadow-sm">
+    <article className="my-6 space-y-3 rounded-2xl bg-card p-5 shadow-sm">
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
           {/* <UserTooltip user={post.user}> */}

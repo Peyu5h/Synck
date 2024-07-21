@@ -6,7 +6,6 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import { submitPost } from "./action";
 import UserAvatar from "@/components/UserAvatar";
-import { validateRequest } from "@/auth";
 import { useSession } from "@/app/(main)/SessionProvider";
 import { Button } from "@/components/ui/button";
 
@@ -35,12 +34,12 @@ const Editor = () => {
   }
 
   return (
-    <div>
-      <div className="flex w-full gap-5 rounded-2xl bg-card p-5 shadow-2xl">
+    <div className="flex flex-col gap-y-4 rounded-2xl bg-card p-5 shadow-2xl">
+      <div className="flex w-full gap-5">
         <UserAvatar avatarUrl={user.avatarUrl} />
         <EditorContent
           editor={editor}
-          className="max-h-[20rem] w-full overflow-y-auto rounded-2xl bg-slate-400 px-5 py-3"
+          className="max-h-[20rem] w-full overflow-y-auto rounded-2xl bg-slate-200 px-5 py-3 dark:bg-zinc-700"
         />
       </div>
       <div className="flex justify-end">

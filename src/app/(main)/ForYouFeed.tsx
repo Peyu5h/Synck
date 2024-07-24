@@ -1,6 +1,7 @@
 "use client";
 
 import InfiniteScroll from "@/components/InfiniteScroll";
+import DeletePostDialog from "@/components/post/DeletePostPopup";
 import PostsLoadingSkeleton from "@/components/post/LoadingSkeleton";
 import Post from "@/components/post/Post";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,7 @@ export default function ForYouFeed() {
         </Post>
       ))}
       {isFetchingNextPage && <Loader2 className="mx-auto animate-spin" />}
+      {/* <DeletePostDialog open onClose={() => {}} post={posts[0]} /> */}
     </InfiniteScroll>
   );
 }

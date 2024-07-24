@@ -6,20 +6,6 @@ import React from "react";
 import ForYouFeed from "./ForYouFeed";
 
 const Page = async () => {
-  // const posts = await prisma.post.findMany({
-  //   include: {
-  //     user: {
-  //       select: {
-  //         username: true,
-  //         displayName: true,
-  //         avatarUrl: true,
-  //       },
-  //     },
-  //   },
-  //   orderBy: {
-  //     createdAt: "desc",
-  //   },
-  // });
   return (
     <main className="flex w-full min-w-0 gap-5">
       <div className="w-full min-w-0 space-y-5">

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import UserAvatar from "../UserAvatar";
 import { dateHandler } from "@/lib/utils";
+import PostOptions from "./PostOptions";
 
 interface PostProps {
   post: PostData;
@@ -16,11 +17,13 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
+  console.log(post);
+  console.log(user);
 
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <article className="my-6 space-y-3 rounded-2xl bg-card p-5 shadow-sm">
+    <article className="group my-6 space-y-3 rounded-2xl bg-card p-5 shadow-sm">
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
           {/* <UserTooltip user={post.user}> */}
@@ -50,12 +53,14 @@ export default function Post({ post }: PostProps) {
           </div>
         </div>
 
-        {/* {post.user.id === user.id && (
-          <PostMoreButton
+        {post.user.id === user.id && (
+          <PostOptions
             post={post}
-            className="opacity-0 transition-opacity group-hover/post:opacity-100"
+            className="transition-opacity group-hover/post:opacity-100"
           />
         )}
+        {/* )} */}
+        {/*
       </div>
       <Linkify>
         <div className="whitespace-pre-line break-words">{post.content}</div>

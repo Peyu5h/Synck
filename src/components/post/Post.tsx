@@ -17,8 +17,6 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
-  console.log(post);
-  console.log(user);
 
   const [showComments, setShowComments] = useState(false);
 
@@ -53,12 +51,12 @@ export default function Post({ post }: PostProps) {
           </div>
         </div>
 
-        {post.user.id === user.id && (
-          <PostOptions
-            post={post}
-            className="transition-opacity group-hover/post:opacity-100"
-          />
-        )}
+        <PostOptions
+          post={post}
+          userId={user.id}
+          className="transition-opacity"
+        />
+
         {/* )} */}
         {/*
       </div>

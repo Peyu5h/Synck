@@ -1,6 +1,6 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { postDataInclude, PostsPage } from "@/lib/types";
+import { getPostData, PostsPage } from "@/lib/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -16,14 +16,14 @@ export async function GET(req: NextRequest) {
     }
 
     const posts = await prisma.post.findMany({
-      include: postDataInclude,
+      include: getPostData(user.id),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
       ...(cursor && { cursor: { id: cursor }, skip: 1 }),
     });
 
     const hasMore = posts.length > pageSize;
-    const nextCursor = hasMore ? posts[pageSize].id : null;
+    const nextCursor = hasMore ? posts[pageSize].id : null; // contains id of last fetched post
 
     const data: PostsPage = {
       posts: posts.slice(0, pageSize),

@@ -12,10 +12,15 @@ import DeletePostDialog from "./DeletePostPopup";
 
 interface PostOptionsProps {
   post: PostData;
+  userId: string;
   className?: string;
 }
 
-export default function PostOptions({ post, className }: PostOptionsProps) {
+export default function PostOptions({
+  post,
+  className,
+  userId,
+}: PostOptionsProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   return (
@@ -27,12 +32,14 @@ export default function PostOptions({ post, className }: PostOptionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setShowDeleteDialog(true)}>
-            <span className="flex items-center gap-3 text-destructive">
-              <Trash2 className="size-4" />
-              Delete
-            </span>
-          </DropdownMenuItem>
+          {userId === post.user.id && (
+            <DropdownMenuItem onClick={() => setShowDeleteDialog(true)}>
+              <span className="flex items-center gap-3 text-destructive">
+                <Trash2 className="size-4" />
+                Delete
+              </span>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
       <DeletePostDialog

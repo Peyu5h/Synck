@@ -1,7 +1,6 @@
 import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import TrendingSection from "@/components/TrendingSection";
-import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/lib/prisma";
 import { FollowerInfo, getUserData, UserData } from "@/lib/types";
@@ -11,6 +10,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import UserPosts from "./UserPost";
 import FollowerCount from "@/components/FollowerCount";
+import { EditProfile } from "@/components/editProfile/EditDialogue";
 
 interface PageProps {
   params: { username: string };
@@ -58,6 +58,8 @@ export default async function Page({ params: { username } }: PageProps) {
   }
 
   const user = await getUser(username, loggedInUser.id);
+
+  // const [editProfile, setEditProfile] = useState(false);
 
   return (
     <main className="flex w-full min-w-0 gap-5">
@@ -113,7 +115,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
           </div>
         </div>
         {user.id === loggedInUserId ? (
-          <Button>Edit profile</Button>
+          <EditProfile user={user} />
         ) : (
           <FollowButton userId={user.id} initialState={followerInfo} />
         )}

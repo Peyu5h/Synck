@@ -8,6 +8,7 @@ import UserAvatar from "./UserAvatar";
 import { formatNumber } from "@/lib/utils";
 import FollowButton from "./FollowButton";
 import { getUserData } from "@/lib/types";
+import UserTooltip from "./UserTooltip";
 
 export default function TrendingSection() {
   return (
@@ -46,26 +47,30 @@ async function FollowSuggestion() {
     <div className="rounded-xl bg-card p-4">
       <h1 className="mb-4 text-xl">You might know</h1>
       {users.map((user) => (
-        // <Link href={`/user/${user.username}`} key={user.id}>
-        <div key={user.id} className="flex items-center justify-between">
-          <div className="my-2 flex items-center space-x-4">
-            <UserAvatar avatarUrl={user.avatarUrl} />
-            <div className="flex flex-col text-sm">
-              <h2>{user.displayName}</h2>
-              <p>@{user.username}</p>
+        <div key={user.id}>
+          <UserTooltip user={user}>
+            <div className="my-2 flex w-full items-center space-x-4">
+              <UserAvatar avatarUrl={user.avatarUrl} />
+              <div className="flex w-full items-center justify-between">
+                <div className="flex flex-col text-sm">
+                  <Link href={`/user/${user.username}`} key={user.id}>
+                    <h2>{user.displayName}</h2>
+                    <p>@{user.username}</p>
+                  </Link>
+                </div>
+              </div>
+              <FollowButton
+                userId={user.id}
+                initialState={{
+                  followers: user._count?.followers,
+                  isFollowedByUser: user.followers.some(
+                    ({ followerId }) => followerId === user.id,
+                  ),
+                }}
+              />
             </div>
-          </div>
-          <FollowButton
-            userId={user.id}
-            initialState={{
-              followers: user._count?.followers,
-              isFollowedByUser: user.followers.some(
-                ({ followerId }) => followerId === user.id,
-              ),
-            }}
-          />
+          </UserTooltip>
         </div>
-        // </Link>
       ))}
     </div>
   );

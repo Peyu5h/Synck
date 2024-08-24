@@ -34,11 +34,9 @@ export default function FollowButton({
 
       const previousState = queryClient.getQueryData<FollowerInfo>(queryKey);
 
-      queryClient.setQueryData<FollowerInfo>(queryKey, () => ({
-        followers:
-          (previousState?.followers || 0) +
-          (previousState?.isFollowedByUser ? -1 : 1),
-        isFollowedByUser: !previousState?.isFollowedByUser,
+      queryClient.setQueryData<FollowerInfo>(queryKey, (old) => ({
+        followers: (old?.followers || 0) + (old?.isFollowedByUser ? -1 : 1),
+        isFollowedByUser: !old?.isFollowedByUser,
       }));
 
       return { previousState };
@@ -52,6 +50,8 @@ export default function FollowButton({
       });
     },
   });
+
+  console.log(data);
 
   return (
     <Button

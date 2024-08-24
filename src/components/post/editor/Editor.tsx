@@ -46,7 +46,7 @@ const Editor = () => {
         <UserAvatar avatarUrl={user.avatarUrl} />
         <EditorContent
           editor={editor}
-          className="max-h-[20rem] w-full overflow-y-auto rounded-2xl bg-slate-200 px-5 py-3 dark:bg-zinc-700"
+          className="max-h-[20rem] w-full overflow-y-auto rounded-2xl bg-secondary px-5 py-3"
         />
       </div>
       <div className="flex justify-end">

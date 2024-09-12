@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import InputField from "../InputField";
 import { useFormik } from "formik";
 import { editProfileSchema } from "@/lib/yupValidation";
@@ -20,6 +20,7 @@ import Image from "next/image";
 import { useToast } from "../ui/use-toast";
 import { updateProfile } from "@/app/(main)/users/[username]/action";
 import { useQueryClient } from "@tanstack/react-query";
+import ImageCropperDialog from "./ImageCropperDialog";
 
 export function EditProfile({ user }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -28,17 +29,19 @@ export function EditProfile({ user }) {
     avatarUrl: user.avatarUrl || "",
     bio: user.bio || "",
   });
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [imageToEdit, setImageToEdit] = useState(null);
 
   const queryClient = useQueryClient();
 
   const CLOUDINARYSEC = "wzj4shyr";
   const { toast } = useToast();
 
-  const uploadImg = async () => {
+  const uploadImg = async (file) => {
     try {
       const formData = new FormData();
       formData.append("upload_preset", CLOUDINARYSEC);
-      formData.append("file", selectedFile);
+      formData.append("file", file);
 
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/dkysrpdi6/image/upload",
@@ -69,7 +72,8 @@ export function EditProfile({ user }) {
     const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
     if (allowedExtensions.includes(fileExtension)) {
-      setSelectedFile(file);
+      setImageToEdit(file);
+      setIsCropperOpen(true);
     } else {
       alert("Invalid file type. Please select a jpg, jpeg, png, or webp file.");
     }
@@ -79,13 +83,17 @@ export function EditProfile({ user }) {
     fileInputRef.current.click();
   };
 
+  const handleCropComplete = (croppedImage) => {
+    setSelectedFile(croppedImage);
+  };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: editProfileSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
         if (selectedFile) {
-          const url = await uploadImg();
+          const url = await uploadImg(selectedFile);
           values.avatarUrl = url;
         }
 
@@ -131,29 +139,29 @@ export function EditProfile({ user }) {
   const closeRef = useRef(null);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className="border border-primary bg-card hover:bg-primary"
-          variant="outline"
-        >
-          Edit Profile
-        </Button>
-      </DialogTrigger>
-      <DialogClose asChild>
-        <Button ref={closeRef} className="hidden" variant="outline"></Button>
-      </DialogClose>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            className="border border-primary bg-card hover:bg-primary"
+            variant="outline"
+          >
+            Edit Profile
+          </Button>
+        </DialogTrigger>
+        <DialogClose asChild>
+          <Button ref={closeRef} className="hidden" variant="outline"></Button>
+        </DialogClose>
+        <DialogContent className="sm:max-w-[425px]">
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you&apos;re
+                done.
+              </DialogDescription>
+            </DialogHeader>
+
             <div className="group relative mx-auto h-24 w-24">
               <input
                 type="file"
@@ -208,16 +216,22 @@ export function EditProfile({ user }) {
               touched={touched?.bio}
             />
             {status && <div className="text-sm text-red-500">{status}</div>}
+            <DialogFooter>
+              <div className="cursor-not-allowed">
+                <Button type="submit" disabled={isValuesEqual && !selectedFile}>
+                  {isSubmitting ? "Saving..." : "Save changes"}
+                </Button>
+              </div>
+            </DialogFooter>
           </form>
-          <DialogFooter>
-            <div className="cursor-not-allowed">
-              <Button type="submit" disabled={isValuesEqual && !selectedFile}>
-                {isSubmitting ? "Saving..." : "Save changes"}
-              </Button>
-            </div>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+      <ImageCropperDialog
+        isOpen={isCropperOpen}
+        onClose={() => setIsCropperOpen(false)}
+        imageFile={imageToEdit}
+        onCropComplete={handleCropComplete}
+      />
+    </>
   );
 }

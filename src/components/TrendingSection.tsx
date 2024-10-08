@@ -53,7 +53,7 @@ async function FollowSuggestion() {
               <UserAvatar avatarUrl={user.avatarUrl} />
               <div className="flex w-full items-center justify-between">
                 <div className="flex flex-col text-sm">
-                  <Link href={`/user/${user.username}`} key={user.id}>
+                  <Link href={`/users/${user.username}`} key={user.id}>
                     <h2>{user.displayName}</h2>
                     <p>@{user.username}</p>
                   </Link>

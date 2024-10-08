@@ -22,6 +22,7 @@ export async function updateProfile(
     });
 
     revalidatePath(`/users/${userId}`);
+    revalidatePath(`/users/[username]`);
     revalidatePath(`/`);
   } catch (error) {
     console.error("Failed to update profile:", error);
